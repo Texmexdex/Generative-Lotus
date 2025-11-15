@@ -1,0 +1,93 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2025-11-15T00:04:59.863Z",
+  "presetName": "lotus",
+  "state": {
+    "canvas": {
+      "width": 1200,
+      "height": 800,
+      "backgroundColor": "#0a0a1a",
+      "targetFPS": 60,
+      "cameraZoom": 2.2,
+      "cameraX": 0,
+      "cameraY": 0
+    },
+    "shape": {
+      "type": "octagon",
+      "customSVG": null,
+      "size": 10
+    },
+    "color": {
+      "stylingType": "stroke",
+      "strokeWidth": 0.01,
+      "drawingMode": "lch",
+      "palette": [
+        "#c4271b",
+        "#045289",
+        "#a5ea34",
+        "#5534f6"
+      ],
+      "singleColor": "#FFFFFF",
+      "colorShift": {
+        "enabled": true,
+        "speed": 0.1,
+        "offset": 0.5203600000521647
+      }
+    },
+    "transform": {
+      "sequenceCount": 2000,
+      "baseScale": 0.7,
+      "scaleTransition": 1.002,
+      "baseRotation": 131,
+      "rotationTransition": -0.3,
+      "baseX": -2,
+      "baseY": -3,
+      "splitMask": "vertical",
+      "trailDistance": 1,
+      "opacityFade": {
+        "enabled": true,
+        "startOpacity": 0.33,
+        "endOpacity": 0.47,
+        "fadeRate": 0.6
+      }
+    },
+    "animation": {
+      "scale": {
+        "motionType": "sin",
+        "effectOrder": "backward",
+        "amplitude": 0.29,
+        "frequency": 0.47,
+        "speed": 0.01,
+        "noiseSeed": 1
+      },
+      "x": {
+        "motionType": "off",
+        "effectOrder": "equal",
+        "amplitude": 50,
+        "frequency": 1,
+        "speed": 1,
+        "noiseSeed": 2
+      },
+      "y": {
+        "motionType": "off",
+        "effectOrder": "equal",
+        "amplitude": 50,
+        "frequency": 1,
+        "speed": 1,
+        "noiseSeed": 3
+      },
+      "rotate": {
+        "motionType": "sin",
+        "effectOrder": "forward",
+        "amplitude": 72,
+        "frequency": 0.24,
+        "speed": 0.68,
+        "noiseSeed": 2513
+      }
+    },
+    "preset": {
+      "current": "lotus",
+      "modified": true
+    }
+  }
+}

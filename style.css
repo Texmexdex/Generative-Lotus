@@ -1,0 +1,514 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a1a1a;
+    color: #e0e0e0;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.controls-panel {
+    width: 320px;
+    background: #2a2a2a;
+    overflow-y: auto;
+    padding: 20px;
+    border-right: 2px solid #444;
+}
+
+.panel {
+    background: #333;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+.panel h3 {
+    color: #4CAF50;
+    margin-bottom: 12px;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.panel label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+.panel input[type="range"] {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.panel select,
+.panel button,
+.panel input[type="color"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    background: #444;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.panel button:hover {
+    background: #555;
+}
+
+#colorPreset {
+    display: flex;
+    gap: 5px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+}
+
+.color-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid #555;
+}
+
+.tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    background: #333;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.tab-btn.active {
+    background: #4CAF50;
+    color: #000;
+}
+
+.tab-content {
+    display: none;
+    background: #333;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h3 {
+    color: #4CAF50;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.tab-content label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+.tab-content input[type="range"],
+.tab-content select {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.tab-content button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    background: #4CAF50;
+    color: #000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.canvas-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+}
+
+#canvas {
+    display: block;
+    cursor: move;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .controls-panel {
+        width: 100%;
+        max-height: 40vh;
+        border-right: none;
+        border-bottom: 2px solid #444;
+    }
+    
+    .canvas-container {
+        height: 60vh;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2a2a2a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4CAF50;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #45a049;
+}
+
+/* Color Palette UI Styles */
+.palette-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.color-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid #555;
+    position: relative;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.color-swatch:hover {
+    border-color: #4CAF50;
+    transform: scale(1.1);
+}
+
+.color-remove-btn {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #f44336;
+    color: white;
+    border: none;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.color-swatch:hover .color-remove-btn {
+    opacity: 1;
+}
+
+.color-remove-btn:hover {
+    background: #d32f2f;
+}
+
+.add-color-btn {
+    background: #444;
+    color: #4CAF50;
+    font-size: 24px;
+    font-weight: bold;
+    border: 2px dashed #555;
+}
+
+.add-color-btn:hover {
+    background: #555;
+    border-color: #4CAF50;
+}
+
+/* Range value display */
+.range-value {
+    display: inline-block;
+    margin-left: 10px;
+    color: #4CAF50;
+    font-weight: bold;
+    min-width: 40px;
+}
+
+/* Drop Zone Overlay Styles */
+.drop-zone-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.drop-zone-content {
+    text-align: center;
+    color: #4CAF50;
+}
+
+.drop-zone-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    animation: bounce 1s infinite;
+}
+
+.drop-zone-text {
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Performance Monitor Styles */
+.performance-monitor {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.fps-display {
+    background: rgba(0, 0, 0, 0.7);
+    color: #4CAF50;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+    min-width: 80px;
+    border: 2px solid #4CAF50;
+}
+
+.fps-display.warning {
+    color: #FF9800;
+    border-color: #FF9800;
+}
+
+.fps-display.critical {
+    color: #F44336;
+    border-color: #F44336;
+}
+
+.performance-warning {
+    background: rgba(244, 67, 54, 0.95);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    max-width: 300px;
+    border: 2px solid #D32F2F;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.warning-suggestions {
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.5;
+}
+
+.warning-suggestions ul {
+    margin: 5px 0 0 20px;
+    padding: 0;
+}
+
+.warning-suggestions li {
+    margin: 3px 0;
+}
+
+/* Keyboard Shortcuts Help Overlay */
+.keyboard-shortcuts-help {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.help-content {
+    background: #2a2a2a;
+    border: 2px solid #4CAF50;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.help-content h2 {
+    color: #4CAF50;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.shortcuts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.shortcut-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background: #333;
+    border-radius: 6px;
+    border: 1px solid #444;
+}
+
+.shortcut-item kbd {
+    background: #1a1a1a;
+    border: 2px solid #4CAF50;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-family: monospace;
+    font-size: 14px;
+    font-weight: bold;
+    color: #4CAF50;
+    min-width: 40px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.shortcut-item span {
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+.help-footer {
+    text-align: center;
+    color: #888;
+    font-size: 12px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #444;
+}
+
+.help-footer kbd {
+    background: #1a1a1a;
+    border: 1px solid #666;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-family: monospace;
+    font-size: 11px;
+    color: #aaa;
+}
+
+/* Shortcut Notification */
+.shortcut-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(76, 175, 80, 0.95);
+    color: white;
+    padding: 20px 40px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 999;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+
+.shortcut-notification.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Keyboard Hint in Panel */
+.keyboard-hint {
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    border-radius: 4px;
+    text-align: center;
+    font-size: 11px;
+    color: #aaa;
+}
+
+.keyboard-hint kbd {
+    background: #1a1a1a;
+    border: 1px solid #4CAF50;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-family: monospace;
+    font-size: 11px;
+    color: #4CAF50;
+    font-weight: bold;
+}
