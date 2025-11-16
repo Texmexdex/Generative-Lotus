@@ -1,0 +1,90 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2025-11-16T06:03:40.001Z",
+  "presetName": "sacredGeometry",
+  "state": {
+    "canvas": {
+      "width": 1200,
+      "height": 800,
+      "backgroundColor": "#faf9f6",
+      "targetFPS": 60,
+      "cameraZoom": 0.6,
+      "cameraX": 0,
+      "cameraY": 0
+    },
+    "shape": {
+      "type": "hexagon",
+      "customSVG": null,
+      "size": 113
+    },
+    "color": {
+      "stylingType": "stroke",
+      "strokeWidth": 0.17,
+      "drawingMode": "lch",
+      "palette": [
+        "#2b2d42"
+      ],
+      "singleColor": "#2b2d42",
+      "colorShift": {
+        "enabled": false,
+        "speed": 2.5,
+        "offset": 0.9923600000013586
+      }
+    },
+    "transform": {
+      "sequenceCount": 655,
+      "baseScale": 10.050000000000008,
+      "scaleTransition": 1.0024999999999986,
+      "baseRotation": 0,
+      "rotationTransition": 12.579999999999947,
+      "baseX": -61,
+      "baseY": -3,
+      "splitMask": "quantumXOR",
+      "trailDistance": 1,
+      "opacityFade": {
+        "enabled": true,
+        "startOpacity": 1,
+        "endOpacity": 0.2,
+        "fadeRate": 1.5
+      }
+    },
+    "animation": {
+      "scale": {
+        "motionType": "sin",
+        "effectOrder": "backward",
+        "amplitude": 0.1,
+        "frequency": 0.5,
+        "speed": 0.3,
+        "noiseSeed": 1
+      },
+      "x": {
+        "motionType": "off",
+        "effectOrder": "equal",
+        "amplitude": 50,
+        "frequency": 1,
+        "speed": 1,
+        "noiseSeed": 2
+      },
+      "y": {
+        "motionType": "off",
+        "effectOrder": "equal",
+        "amplitude": 50,
+        "frequency": 1,
+        "speed": 1,
+        "noiseSeed": 3
+      },
+      "rotate": {
+        "motionType": "sin",
+        "effectOrder": "equal",
+        "amplitude": 60,
+        "frequency": 0.3,
+        "speed": 0.2,
+        "noiseSeed": 4
+      }
+    },
+    "preset": {
+      "current": "sacredGeometry",
+      "modified": true
+    }
+  }
+}

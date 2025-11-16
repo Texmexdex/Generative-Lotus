@@ -202,86 +202,29 @@ export class StateManager {
     validateState(state) {
         const validated = { ...state };
 
-        // Canvas validation
-        if (validated.canvas) {
-            validated.canvas.width = this.clamp(validated.canvas.width, 800, 4000);
-            validated.canvas.height = this.clamp(validated.canvas.height, 600, 3000);
-            validated.canvas.targetFPS = this.clamp(validated.canvas.targetFPS, 30, 120);
-            validated.canvas.cameraZoom = this.clamp(validated.canvas.cameraZoom, 0.1, 5.0);
+        // NO VALIDATION - LET DEVS PUSH THE LIMITS!
+        // All clamps removed - values can be anything
+        
+        // Only keep essential validations (non-numeric)
+        if (validated.color && validated.color.palette) {
+            // Ensure palette has at least 1 color
+            if (validated.color.palette.length < 1) {
+                validated.color.palette = ['#FFFFFF'];
+            }
+        }
+        
+        // Round sequence count to integer
+        if (validated.transform && validated.transform.sequenceCount) {
+            validated.transform.sequenceCount = Math.floor(validated.transform.sequenceCount);
+        }
+        
+        // Keep opacity fade values if they exist (but don't clamp)
+        if (validated.transform && validated.transform.opacityFade) {
+            // No clamping - let it go wild!
         }
 
-        // Shape validation
-        if (validated.shape) {
-            validated.shape.size = this.clamp(validated.shape.size, 10, 500);
-        }
-
-        // Color validation
-        if (validated.color) {
-            validated.color.strokeWidth = this.clamp(validated.color.strokeWidth, 0.01, 1.0);
-            
-            // Ensure palette has at least 1 color and max 10
-            if (validated.color.palette) {
-                if (validated.color.palette.length < 1) {
-                    validated.color.palette = ['#FFFFFF'];
-                } else if (validated.color.palette.length > 10) {
-                    validated.color.palette = validated.color.palette.slice(0, 10);
-                }
-            }
-            
-            // Color shift validation
-            if (validated.color.colorShift) {
-                validated.color.colorShift.speed = this.clamp(validated.color.colorShift.speed, 0.1, 5.0);
-            }
-        }
-
-        // Transform validation
-        if (validated.transform) {
-            validated.transform.sequenceCount = Math.floor(this.clamp(validated.transform.sequenceCount, 0, 2000));
-            validated.transform.baseScale = this.clamp(validated.transform.baseScale, 0.1, 3.0);
-            validated.transform.scaleTransition = this.clamp(validated.transform.scaleTransition, 0.9, 1.1);
-            validated.transform.baseRotation = this.clamp(validated.transform.baseRotation, 0, 360);
-            validated.transform.rotationTransition = this.clamp(validated.transform.rotationTransition, -10, 10);
-            validated.transform.baseX = this.clamp(validated.transform.baseX, -200, 200);
-            validated.transform.baseY = this.clamp(validated.transform.baseY, -200, 200);
-            validated.transform.trailDistance = this.clamp(validated.transform.trailDistance, 0.1, 5.0);
-            
-            if (validated.transform.opacityFade) {
-                validated.transform.opacityFade.startOpacity = this.clamp(validated.transform.opacityFade.startOpacity, 0, 1);
-                validated.transform.opacityFade.endOpacity = this.clamp(validated.transform.opacityFade.endOpacity, 0, 1);
-                validated.transform.opacityFade.fadeRate = this.clamp(validated.transform.opacityFade.fadeRate, 0.1, 3.0);
-            }
-        }
-
-        // Animation validation
-        if (validated.animation) {
-            // Validate scale animation
-            if (validated.animation.scale) {
-                validated.animation.scale.amplitude = this.clamp(validated.animation.scale.amplitude, 0, 1.0);
-                validated.animation.scale.frequency = this.clamp(validated.animation.scale.frequency, 0.01, 2.0);
-                validated.animation.scale.speed = this.clamp(validated.animation.scale.speed, 0.01, 2.0);
-            }
-            
-            // Validate x animation
-            if (validated.animation.x) {
-                validated.animation.x.amplitude = this.clamp(validated.animation.x.amplitude, 0, 100);
-                validated.animation.x.frequency = this.clamp(validated.animation.x.frequency, 0.01, 2.0);
-                validated.animation.x.speed = this.clamp(validated.animation.x.speed, 0.01, 2.0);
-            }
-            
-            // Validate y animation
-            if (validated.animation.y) {
-                validated.animation.y.amplitude = this.clamp(validated.animation.y.amplitude, 0, 100);
-                validated.animation.y.frequency = this.clamp(validated.animation.y.frequency, 0.01, 2.0);
-                validated.animation.y.speed = this.clamp(validated.animation.y.speed, 0.01, 2.0);
-            }
-            
-            // Validate rotate animation
-            if (validated.animation.rotate) {
-                validated.animation.rotate.amplitude = this.clamp(validated.animation.rotate.amplitude, 0, 90);
-                validated.animation.rotate.frequency = this.clamp(validated.animation.rotate.frequency, 0.01, 2.0);
-                validated.animation.rotate.speed = this.clamp(validated.animation.rotate.speed, 0.01, 2.0);
-            }
-        }
+        // Animation validation - NO CLAMPING
+        // All animation values can be anything - push those limits!
 
         return validated;
     }

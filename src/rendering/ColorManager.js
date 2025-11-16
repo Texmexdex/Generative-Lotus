@@ -403,4 +403,25 @@ export class ColorManager {
         
         return palette;
     }
+
+    /**
+     * Invert/complement a color
+     * @param {string} color - Hex color string
+     * @returns {string} Inverted hex color
+     */
+    invertColor(color) {
+        // Parse hex color
+        const hex = color.replace('#', '');
+        const r = parseInt(hex.substr(0, 2), 16);
+        const g = parseInt(hex.substr(2, 2), 16);
+        const b = parseInt(hex.substr(4, 2), 16);
+        
+        // Invert RGB values
+        const invR = (255 - r).toString(16).padStart(2, '0');
+        const invG = (255 - g).toString(16).padStart(2, '0');
+        const invB = (255 - b).toString(16).padStart(2, '0');
+        
+        return `#${invR}${invG}${invB}`;
+    }
+
 }

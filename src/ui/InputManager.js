@@ -16,6 +16,17 @@ export class InputManager {
             alt: false
         };
         
+        // Enabled state
+        this.enabled = true;
+        
+        // Bind handlers
+        this.boundMouseDown = (e) => this.onMouseDown(e);
+        this.boundMouseMove = (e) => this.onMouseMove(e);
+        this.boundMouseUp = (e) => this.onMouseUp(e);
+        this.boundWheel = (e) => this.onWheel(e);
+        this.boundKeyDown = (e) => this.onKeyDown(e);
+        this.boundKeyUp = (e) => this.onKeyUp(e);
+        
         this.bindEventListeners();
     }
 
@@ -24,23 +35,41 @@ export class InputManager {
      */
     bindEventListeners() {
         // Mouse events
-        this.canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
-        this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
-        this.canvas.addEventListener('mouseup', (e) => this.onMouseUp(e));
-        this.canvas.addEventListener('mouseleave', (e) => this.onMouseUp(e));
+        this.canvas.addEventListener('mousedown', this.boundMouseDown);
+        this.canvas.addEventListener('mousemove', this.boundMouseMove);
+        this.canvas.addEventListener('mouseup', this.boundMouseUp);
+        this.canvas.addEventListener('mouseleave', this.boundMouseUp);
         
         // Wheel event for scroll
-        this.canvas.addEventListener('wheel', (e) => this.onWheel(e), { passive: false });
+        this.canvas.addEventListener('wheel', this.boundWheel, { passive: false });
         
         // Keyboard events for modifier keys
-        window.addEventListener('keydown', (e) => this.onKeyDown(e));
-        window.addEventListener('keyup', (e) => this.onKeyUp(e));
+        window.addEventListener('keydown', this.boundKeyDown);
+        window.addEventListener('keyup', this.boundKeyUp);
+    }
+
+    /**
+     * Enable input handling
+     */
+    enable() {
+        this.enabled = true;
+        console.log('InputManager enabled');
+    }
+
+    /**
+     * Disable input handling
+     */
+    disable() {
+        this.enabled = false;
+        console.log('InputManager disabled');
     }
 
     /**
      * Handle mouse down event
      */
     onMouseDown(event) {
+        if (!this.enabled) return;
+        
         this.isMouseDown = true;
         this.lastMouseX = event.clientX;
         this.lastMouseY = event.clientY;
@@ -54,7 +83,7 @@ export class InputManager {
      * Handle mouse move event
      */
     onMouseMove(event) {
-        if (!this.isMouseDown) return;
+        if (!this.enabled || !this.isMouseDown) return;
         
         const dx = event.clientX - this.lastMouseX;
         const dy = event.clientY - this.lastMouseY;
@@ -77,6 +106,8 @@ export class InputManager {
      * Handle wheel event for scroll
      */
     onWheel(event) {
+        if (!this.enabled) return;
+        
         event.preventDefault();
         
         this.updateModifiers(event);
@@ -89,6 +120,8 @@ export class InputManager {
      * Handle keyboard down event
      */
     onKeyDown(event) {
+        if (!this.enabled) return;
+        
         this.modifiers.shift = event.shiftKey;
         this.modifiers.ctrl = event.ctrlKey || event.metaKey; // metaKey for Mac Cmd
         this.modifiers.alt = event.altKey;
@@ -98,6 +131,8 @@ export class InputManager {
      * Handle keyboard up event
      */
     onKeyUp(event) {
+        if (!this.enabled) return;
+        
         this.modifiers.shift = event.shiftKey;
         this.modifiers.ctrl = event.ctrlKey || event.metaKey;
         this.modifiers.alt = event.altKey;
@@ -199,12 +234,12 @@ export class InputManager {
      * Clean up event listeners
      */
     destroy() {
-        this.canvas.removeEventListener('mousedown', this.onMouseDown);
-        this.canvas.removeEventListener('mousemove', this.onMouseMove);
-        this.canvas.removeEventListener('mouseup', this.onMouseUp);
-        this.canvas.removeEventListener('mouseleave', this.onMouseUp);
-        this.canvas.removeEventListener('wheel', this.onWheel);
-        window.removeEventListener('keydown', this.onKeyDown);
-        window.removeEventListener('keyup', this.onKeyUp);
+        this.canvas.removeEventListener('mousedown', this.boundMouseDown);
+        this.canvas.removeEventListener('mousemove', this.boundMouseMove);
+        this.canvas.removeEventListener('mouseup', this.boundMouseUp);
+        this.canvas.removeEventListener('mouseleave', this.boundMouseUp);
+        this.canvas.removeEventListener('wheel', this.boundWheel);
+        window.removeEventListener('keydown', this.boundKeyDown);
+        window.removeEventListener('keyup', this.boundKeyUp);
     }
 }

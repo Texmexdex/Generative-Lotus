@@ -30,13 +30,26 @@ export class StyleRenderer {
         // Save context state
         ctx.save();
         
+        // Apply blend mode if specified (for quantum effects)
+        if (transform.blendMode) {
+            ctx.globalCompositeOperation = transform.blendMode;
+        } else {
+            // Reset to default if no blend mode
+            ctx.globalCompositeOperation = 'source-over';
+        }
+        
         // Apply transform
         ctx.translate(transform.x, transform.y);
         ctx.rotate(transform.rotation * Math.PI / 180);
         ctx.scale(transform.scale, transform.scale);
         
         // Get color for this shape
-        const color = this.colorManager.getColorForIndex(index, sequenceCount);
+        let color = this.colorManager.getColorForIndex(index, sequenceCount);
+        
+        // Invert color if flagged
+        if (transform.invertColor) {
+            color = this.colorManager.invertColor(color);
+        }
         
         // Get opacity (combine transform opacity with calculated opacity)
         const calculatedOpacity = this.opacityManager.calculateOpacity(index, sequenceCount);
@@ -49,7 +62,7 @@ export class StyleRenderer {
             this.renderStroke(ctx, shapePath, color, finalOpacity, colorState.strokeWidth);
         }
         
-        // Restore context state
+        // Restore context state (this also resets blend mode)
         ctx.restore();
     }
 
@@ -150,6 +163,15 @@ export class StyleRenderer {
      * Batches shapes with similar properties to reduce state changes
      */
     renderSequenceOptimized(ctx, shapes, sequenceCount, colorState) {
+        // Check if any shapes have blend modes - if so, can't batch
+        const hasBlendModes = shapes.some(s => s.transform.blendMode);
+        
+        if (hasBlendModes) {
+            // Fall back to standard rendering for blend modes
+            this.renderSequenceStandard(ctx, shapes, sequenceCount);
+            return;
+        }
+        
         // Pre-calculate all colors and opacities
         const renderData = [];
         

@@ -61,11 +61,13 @@ export class RenderEngine {
             return;
         }
         
-        // Set initial canvas size
-        const canvasState = this.stateManager.getCanvasState();
-        this.resizeCanvas(canvasState.width, canvasState.height);
+        // Set initial canvas size to fill container
+        const containerWidth = this.canvas.parentElement.clientWidth;
+        const containerHeight = this.canvas.parentElement.clientHeight;
+        this.resizeCanvas(containerWidth, containerHeight);
         
         // Set target FPS
+        const canvasState = this.stateManager.getCanvasState();
         this.setTargetFPS(canvasState.targetFPS);
         
         console.log('Canvas initialized:', this.canvas.width, 'x', this.canvas.height);
@@ -76,36 +78,17 @@ export class RenderEngine {
      */
     resizeCanvas(width, height) {
         // Enforce minimum resolution
-        const minWidth = 800;
-        const minHeight = 600;
+        const minWidth = 400;
+        const minHeight = 300;
         
         width = Math.max(width, minWidth);
         height = Math.max(height, minHeight);
         
-        // Set canvas resolution
+        // Set canvas resolution to match display size
         this.canvas.width = width;
         this.canvas.height = height;
         
-        // Update display size
-        this.updateCanvasDisplaySize();
-        
         console.log(`Canvas resized to: ${width}x${height}`);
-    }
-
-    /**
-     * Update canvas display size to fit container while maintaining aspect ratio
-     */
-    updateCanvasDisplaySize() {
-        const containerWidth = this.canvas.parentElement.clientWidth;
-        const containerHeight = this.canvas.parentElement.clientHeight;
-        
-        // Calculate scale to fit container while maintaining aspect ratio
-        const scaleX = containerWidth / this.canvas.width;
-        const scaleY = containerHeight / this.canvas.height;
-        const scale = Math.min(scaleX, scaleY, 1); // Don't scale up beyond native resolution
-        
-        this.canvas.style.width = `${this.canvas.width * scale}px`;
-        this.canvas.style.height = `${this.canvas.height * scale}px`;
     }
 
     /**
@@ -123,32 +106,17 @@ export class RenderEngine {
         };
         
         window.addEventListener('resize', handleResize);
-        
-        // Initial resize
-        this.onWindowResize();
     }
 
     /**
      * Handle window resize event
      */
     onWindowResize() {
-        // Update canvas display size to fit new container dimensions
-        this.updateCanvasDisplaySize();
-        
-        // Optionally adjust canvas resolution based on container size
-        // (Commented out to preserve user's chosen resolution)
-        /*
+        // Resize canvas to fill container
         const containerWidth = this.canvas.parentElement.clientWidth;
         const containerHeight = this.canvas.parentElement.clientHeight;
         
-        // Only resize if significantly different
-        const widthDiff = Math.abs(this.canvas.width - containerWidth);
-        const heightDiff = Math.abs(this.canvas.height - containerHeight);
-        
-        if (widthDiff > 100 || heightDiff > 100) {
-            this.resizeCanvas(containerWidth, containerHeight);
-        }
-        */
+        this.resizeCanvas(containerWidth, containerHeight);
     }
 
     /**
@@ -739,6 +707,8 @@ export class RenderEngine {
     setStyleRenderer(renderer) {
         this.styleRenderer = renderer;
     }
+
+
 
     /**
      * Get delta time in seconds

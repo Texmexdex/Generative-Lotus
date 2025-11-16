@@ -29,184 +29,257 @@
                 </div>
             </div>
 
-            <div class="panel canvas-panel">
-                <h3>CANVAS</h3>
-                <label>Background: <input type="color" id="bgColor" value="#000000"></label>
-                <label>Camera Zoom: <input type="range" id="cameraZoom" min="0.1" max="5" step="0.1" value="1"></label>
-                <button id="resetCamera">Reset Camera</button>
-            </div>
+            <details class="collapsible-section" open>
+                <summary>CANVAS</summary>
+                <div class="section-content">
+                    <label>Background: <input type="color" id="bgColor" value="#000000"></label>
+                    <label>Camera Zoom: <input type="range" id="cameraZoom" value="1"></label>
+                    <button id="resetCamera">Reset Camera</button>
+                </div>
+            </details>
 
-            <div class="panel shape-panel">
-                <h3>SHAPE</h3>
-                <select id="shapeType">
-                    <optgroup label="2D Shapes">
-                        <option value="circle">Circle</option>
-                        <option value="square">Square</option>
-                        <option value="triangle">Triangle</option>
-                        <option value="star">Star</option>
-                        <option value="pentagon">Pentagon</option>
-                        <option value="hexagon">Hexagon</option>
-                        <option value="octagon">Octagon</option>
-                        <option value="diamond">Diamond</option>
-                        <option value="heart">Heart</option>
-                        <option value="crescent">Crescent</option>
-                        <option value="cross">Cross</option>
-                        <option value="ring">Ring</option>
-                    </optgroup>
-                    <optgroup label="3D Wireframes">
-                        <option value="tetrahedron">Tetrahedron (4 faces)</option>
-                        <option value="cube">Cube (6 faces)</option>
-                        <option value="octahedron">Octahedron (8 faces)</option>
-                        <option value="dodecahedron">Dodecahedron (12 faces)</option>
-                        <option value="icosahedron">Icosahedron (20 faces)</option>
-                        <option value="pyramid">Pyramid</option>
-                        <option value="torus">Torus (Donut)</option>
-                        <option value="doublehelix">Double Helix</option>
-                    </optgroup>
-                    <optgroup label="Custom">
-                        <option value="custom">Custom SVG</option>
-                    </optgroup>
-                </select>
-                <input type="file" id="svgFile" accept=".svg" style="display:none">
-            </div>
-
-            <div class="panel color-panel">
-                <h3>COLOR</h3>
-                <label>Styling:
-                    <select id="stylingType">
-                        <option value="fill">Fill</option>
-                        <option value="stroke">Stroke</option>
+            <details class="collapsible-section" open>
+                <summary>SHAPE</summary>
+                <div class="section-content">
+                    <select id="shapeType">
+                        <optgroup label="2D Shapes">
+                            <option value="circle">Circle</option>
+                            <option value="square">Square</option>
+                            <option value="triangle">Triangle</option>
+                            <option value="star">Star</option>
+                            <option value="pentagon">Pentagon</option>
+                            <option value="hexagon">Hexagon</option>
+                            <option value="octagon">Octagon</option>
+                            <option value="diamond">Diamond</option>
+                            <option value="heart">Heart</option>
+                            <option value="crescent">Crescent</option>
+                            <option value="cross">Cross</option>
+                            <option value="ring">Ring</option>
+                        </optgroup>
+                        <optgroup label="3D Wireframes">
+                            <option value="tetrahedron">Tetrahedron (4 faces)</option>
+                            <option value="cube">Cube (6 faces)</option>
+                            <option value="octahedron">Octahedron (8 faces)</option>
+                            <option value="dodecahedron">Dodecahedron (12 faces)</option>
+                            <option value="icosahedron">Icosahedron (20 faces)</option>
+                            <option value="pyramid">Pyramid</option>
+                            <option value="torus">Torus (Donut)</option>
+                            <option value="doublehelix">Double Helix</option>
+                        </optgroup>
+                        <optgroup label="Custom">
+                            <option value="custom">Custom SVG</option>
+                        </optgroup>
                     </select>
-                </label>
-                <label>Stroke Width: <input type="range" id="strokeWidth" min="0.01" max="1" step="0.01" value="0.2"></label>
-                <label>Drawing Mode:
-                    <select id="drawingMode">
-                        <option value="single">Single Color</option>
-                        <option value="sequence">Sequence</option>
-                        <option value="rgb">Transition (RGB)</option>
-                        <option value="lch">Transition (LCH)</option>
+                    <input type="file" id="svgFile" accept=".svg" style="display:none">
+                </div>
+            </details>
+
+            <details class="collapsible-section" open>
+                <summary>COLOR</summary>
+                <div class="section-content">
+                    <label>Styling:
+                        <select id="stylingType">
+                            <option value="fill">Fill</option>
+                            <option value="stroke">Stroke</option>
+                        </select>
+                    </label>
+                    <label>Stroke Width: <input type="range" id="strokeWidth" value="0.2"></label>
+                    <label>Drawing Mode:
+                        <select id="drawingMode">
+                            <option value="single">Single Color</option>
+                            <option value="sequence">Sequence</option>
+                            <option value="rgb">Transition (RGB)</option>
+                            <option value="lch">Transition (LCH)</option>
+                        </select>
+                    </label>
+                    <div id="colorPreset"></div>
+                    <button id="randomPalette">Get Random Palette</button>
+                    <label>
+                        <input type="checkbox" id="colorShiftEnabled"> Enable Color Shift Animation
+                    </label>
+                    <label>Color Shift Speed: <input type="range" id="colorShiftSpeed" value="1"></label>
+                </div>
+            </details>
+
+            <details class="collapsible-section">
+                <summary>TRANSFORM</summary>
+                <div class="section-content">
+                    <label>Split Mask:
+                        <select id="splitMask">
+                            <option value="none">None</option>
+                            <optgroup label="Spatial Mirrors">
+                                <option value="horizontal">Horizontal</option>
+                                <option value="vertical">Vertical</option>
+                                <option value="quad">Quad</option>
+                            </optgroup>
+                            <optgroup label="Dimensional Mirrors">
+                                <option value="alternating">Alternating Scale</option>
+                                <option value="mirrorScale">Mirror Scale (Inside-Out)</option>
+                                <option value="mirrorRotation">Mirror Rotation</option>
+                                <option value="mirrorOpacity">Mirror Opacity (Mask)</option>
+                                <option value="mirrorColor">Mirror Color (Complementary)</option>
+                                <option value="mirrorBoth">Mirror Scale + Rotation</option>
+                                <option value="mirrorAll">Mirror Everything (8x Chaos)</option>
+                            </optgroup>
+                            <optgroup label="Quantum Existence">
+                                <option value="quantumXOR">Quantum XOR (Non-Overlap Only)</option>
+                                <option value="quantumAND">Quantum AND (Overlap Only)</option>
+                                <option value="quantumSubtract">Quantum Subtract (Anti-Matter)</option>
+                            </optgroup>
+                        </select>
+                    </label>
+                    <label>Sequence Count: <input type="range" id="sequenceCount" value="100"></label>
+                    <label>Shape Size: <input type="range" id="shapeSize" value="100"></label>
+                    <label>Scale: <input type="range" id="baseScale" value="1"></label>
+                    <label>Scale Transition: <input type="range" id="scaleTransition" value="0.98"></label>
+                    <label>Rotation: <input type="range" id="baseRotation" value="0"></label>
+                    <label>Rotation Transition: <input type="range" id="rotationTransition" value="2"></label>
+                    <label>X Position: <input type="range" id="baseX" value="0"></label>
+                    <label>Y Position: <input type="range" id="baseY" value="0"></label>
+                </div>
+            </details>
+
+            <details class="collapsible-section">
+                <summary>OPACITY</summary>
+                <div class="section-content">
+                    <label>
+                        <input type="checkbox" id="opacityFadeEnabled" checked> Enable Opacity Fade
+                    </label>
+                    <label>Start Opacity: <input type="range" id="startOpacity" value="1"></label>
+                    <label>End Opacity: <input type="range" id="endOpacity" value="0.1"></label>
+                    <label>Fade Rate: <input type="range" id="fadeRate" value="1"></label>
+                </div>
+            </details>
+
+            <details class="collapsible-section">
+                <summary>AUDIO REACTIVE</summary>
+                <div class="section-content">
+                    <button id="audioToggle">Enable Audio Input</button>
+                    <select id="audioDevice">
+                        <option value="">Default Microphone</option>
                     </select>
-                </label>
-                <div id="colorPreset"></div>
-                <button id="randomPalette">Get Random Palette</button>
-                <label>
-                    <input type="checkbox" id="colorShiftEnabled"> Enable Color Shift Animation
-                </label>
-                <label>Color Shift Speed: <input type="range" id="colorShiftSpeed" min="0.1" max="5" step="0.1" value="1"></label>
-            </div>
+                    <div id="audioStatus" style="margin: 10px 0; font-size: 11px; color: #888;">Audio: Disabled</div>
+                    
+                    <div class="audio-visualizer">
+                        <div class="viz-bar-container">
+                            <label>Volume</label>
+                            <div class="viz-bar-bg"><div id="viz-volume" class="viz-bar"></div></div>
+                        </div>
+                        <div class="viz-bar-container">
+                            <label>Bass</label>
+                            <div class="viz-bar-bg"><div id="viz-bass" class="viz-bar"></div></div>
+                        </div>
+                        <div class="viz-bar-container">
+                            <label>Mids</label>
+                            <div class="viz-bar-bg"><div id="viz-mids" class="viz-bar"></div></div>
+                        </div>
+                        <div class="viz-bar-container">
+                            <label>Treble</label>
+                            <div class="viz-bar-bg"><div id="viz-treble" class="viz-bar"></div></div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-top: 15px; margin-bottom: 10px; font-size: 12px; color: #4CAF50;">Parameter Mappings</h4>
+                    <button id="addAudioMapping">Configure Mappings</button>
+                    <button id="resetAudioMappings">Reset All</button>
+                    
+                    <div id="audioMappings" class="audio-mappings"></div>
+                    
+                    <h4 style="margin-top: 15px; margin-bottom: 10px; font-size: 12px; color: #4CAF50;">Audio Triggers</h4>
+                    <button id="addAudioTrigger">Add Trigger</button>
+                    <button id="resetBeatCount">Reset Beat Count</button>
+                    
+                    <div id="audioTriggers" class="audio-triggers"></div>
+                </div>
+            </details>
 
-            <div class="panel transform-panel">
-                <h3>TRANSFORM</h3>
-                <label>Split Mask:
-                    <select id="splitMask">
-                        <option value="none">None</option>
-                        <option value="horizontal">Horizontal</option>
-                        <option value="vertical">Vertical</option>
-                        <option value="quad">Quad</option>
-                    </select>
-                </label>
-                <label>Sequence Count: <input type="range" id="sequenceCount" min="10" max="2000" value="100"></label>
-                <label>Shape Size: <input type="range" id="shapeSize" min="10" max="200" step="1" value="100"></label>
-                <label>Scale: <input type="range" id="baseScale" min="0.1" max="3" step="0.1" value="1"></label>
-                <label>Scale Transition: <input type="range" id="scaleTransition" min="0.9" max="1.1" step="0.001" value="0.98"></label>
-                <label>Rotation: <input type="range" id="baseRotation" min="0" max="360" value="0"></label>
-                <label>Rotation Transition: <input type="range" id="rotationTransition" min="-10" max="10" step="0.1" value="2"></label>
-                <label>X Position: <input type="range" id="baseX" min="-200" max="200" step="1" value="0"></label>
-                <label>Y Position: <input type="range" id="baseY" min="-200" max="200" step="1" value="0"></label>
-            </div>
+            <details class="collapsible-section">
+                <summary>ANIMATIONS</summary>
+                <div class="section-content">
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="scale">SCALE</button>
+                        <button class="tab-btn" data-tab="xmove">X MOVE</button>
+                        <button class="tab-btn" data-tab="ymove">Y MOVE</button>
+                        <button class="tab-btn" data-tab="rotate">ROTATE</button>
+                    </div>
 
-            <div class="panel opacity-panel">
-                <h3>OPACITY</h3>
-                <label>
-                    <input type="checkbox" id="opacityFadeEnabled" checked> Enable Opacity Fade
-                </label>
-                <label>Start Opacity: <input type="range" id="startOpacity" min="0" max="1" step="0.01" value="1"></label>
-                <label>End Opacity: <input type="range" id="endOpacity" min="0" max="1" step="0.01" value="0.1"></label>
-                <label>Fade Rate: <input type="range" id="fadeRate" min="0.1" max="3" step="0.1" value="1"></label>
-            </div>
+                    <div class="tab-content active" id="scale-tab">
+                        <h3>SCALE ANIMATION</h3>
+                        <label>Motion: <select class="motionType" data-prop="scale">
+                            <option value="off">Off</option>
+                            <option value="sin">Sinusoidal</option>
+                            <option value="noise">Noise</option>
+                        </select></label>
+                        <label>Effect Order: <select class="effectOrder" data-prop="scale">
+                            <option value="equal">Equal</option>
+                            <option value="forward">Forward</option>
+                            <option value="backward">Backward</option>
+                        </select></label>
+                        <label>Amplitude: <input type="range" class="amplitude" data-prop="scale" value="0.2"></label>
+                        <label>Frequency: <input type="range" class="frequency" data-prop="scale" value="1"></label>
+                        <label>Speed: <input type="range" class="speed" data-prop="scale" value="1"></label>
+                        <label>Noise Seed: <input type="number" class="noiseSeed" data-prop="scale" value="1"></label>
+                        <button class="randomAnim" data-prop="scale">Get Random Values</button>
+                    </div>
 
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="scale">SCALE</button>
-                <button class="tab-btn" data-tab="xmove">X MOVE</button>
-                <button class="tab-btn" data-tab="ymove">Y MOVE</button>
-                <button class="tab-btn" data-tab="rotate">ROTATE</button>
-            </div>
+                    <div class="tab-content" id="xmove-tab">
+                        <h3>X MOVE ANIMATION</h3>
+                        <label>Motion: <select class="motionType" data-prop="x">
+                            <option value="off">Off</option>
+                            <option value="sin">Sinusoidal</option>
+                            <option value="noise">Noise</option>
+                        </select></label>
+                        <label>Effect Order: <select class="effectOrder" data-prop="x">
+                            <option value="equal">Equal</option>
+                            <option value="forward">Forward</option>
+                            <option value="backward">Backward</option>
+                        </select></label>
+                        <label>Amplitude: <input type="range" class="amplitude" data-prop="x" value="50"></label>
+                        <label>Frequency: <input type="range" class="frequency" data-prop="x" value="1"></label>
+                        <label>Speed: <input type="range" class="speed" data-prop="x" value="1"></label>
+                        <label>Noise Seed: <input type="number" class="noiseSeed" data-prop="x" value="2"></label>
+                        <button class="randomAnim" data-prop="x">Get Random Values</button>
+                    </div>
 
-            <div class="tab-content active" id="scale-tab">
-                <h3>SCALE ANIMATION</h3>
-                <label>Motion: <select class="motionType" data-prop="scale">
-                    <option value="off">Off</option>
-                    <option value="sin">Sinusoidal</option>
-                    <option value="noise">Noise</option>
-                </select></label>
-                <label>Effect Order: <select class="effectOrder" data-prop="scale">
-                    <option value="equal">Equal</option>
-                    <option value="forward">Forward</option>
-                    <option value="backward">Backward</option>
-                </select></label>
-                <label>Amplitude: <input type="range" class="amplitude" data-prop="scale" min="0" max="1" step="0.01" value="0.2"></label>
-                <label>Frequency: <input type="range" class="frequency" data-prop="scale" min="0.01" max="2" step="0.01" value="1"></label>
-                <label>Speed: <input type="range" class="speed" data-prop="scale" min="0.01" max="2" step="0.01" value="1"></label>
-                <label>Noise Seed: <input type="number" class="noiseSeed" data-prop="scale" value="1"></label>
-                <button class="randomAnim" data-prop="scale">Get Random Values</button>
-            </div>
+                    <div class="tab-content" id="ymove-tab">
+                        <h3>Y MOVE ANIMATION</h3>
+                        <label>Motion: <select class="motionType" data-prop="y">
+                            <option value="off">Off</option>
+                            <option value="sin">Sinusoidal</option>
+                            <option value="noise">Noise</option>
+                        </select></label>
+                        <label>Effect Order: <select class="effectOrder" data-prop="y">
+                            <option value="equal">Equal</option>
+                            <option value="forward">Forward</option>
+                            <option value="backward">Backward</option>
+                        </select></label>
+                        <label>Amplitude: <input type="range" class="amplitude" data-prop="y" value="50"></label>
+                        <label>Frequency: <input type="range" class="frequency" data-prop="y" value="1"></label>
+                        <label>Speed: <input type="range" class="speed" data-prop="y" value="1"></label>
+                        <label>Noise Seed: <input type="number" class="noiseSeed" data-prop="y" value="3"></label>
+                        <button class="randomAnim" data-prop="y">Get Random Values</button>
+                    </div>
 
-            <div class="tab-content" id="xmove-tab">
-                <h3>X MOVE ANIMATION</h3>
-                <label>Motion: <select class="motionType" data-prop="x">
-                    <option value="off">Off</option>
-                    <option value="sin">Sinusoidal</option>
-                    <option value="noise">Noise</option>
-                </select></label>
-                <label>Effect Order: <select class="effectOrder" data-prop="x">
-                    <option value="equal">Equal</option>
-                    <option value="forward">Forward</option>
-                    <option value="backward">Backward</option>
-                </select></label>
-                <label>Amplitude: <input type="range" class="amplitude" data-prop="x" min="0" max="100" step="1" value="50"></label>
-                <label>Frequency: <input type="range" class="frequency" data-prop="x" min="0.01" max="2" step="0.01" value="1"></label>
-                <label>Speed: <input type="range" class="speed" data-prop="x" min="0.01" max="2" step="0.01" value="1"></label>
-                <label>Noise Seed: <input type="number" class="noiseSeed" data-prop="x" value="2"></label>
-                <button class="randomAnim" data-prop="x">Get Random Values</button>
-            </div>
-
-            <div class="tab-content" id="ymove-tab">
-                <h3>Y MOVE ANIMATION</h3>
-                <label>Motion: <select class="motionType" data-prop="y">
-                    <option value="off">Off</option>
-                    <option value="sin">Sinusoidal</option>
-                    <option value="noise">Noise</option>
-                </select></label>
-                <label>Effect Order: <select class="effectOrder" data-prop="y">
-                    <option value="equal">Equal</option>
-                    <option value="forward">Forward</option>
-                    <option value="backward">Backward</option>
-                </select></label>
-                <label>Amplitude: <input type="range" class="amplitude" data-prop="y" min="0" max="100" step="1" value="50"></label>
-                <label>Frequency: <input type="range" class="frequency" data-prop="y" min="0.01" max="2" step="0.01" value="1"></label>
-                <label>Speed: <input type="range" class="speed" data-prop="y" min="0.01" max="2" step="0.01" value="1"></label>
-                <label>Noise Seed: <input type="number" class="noiseSeed" data-prop="y" value="3"></label>
-                <button class="randomAnim" data-prop="y">Get Random Values</button>
-            </div>
-
-            <div class="tab-content" id="rotate-tab">
-                <h3>ROTATE ANIMATION</h3>
-                <label>Motion: <select class="motionType" data-prop="rotate">
-                    <option value="off">Off</option>
-                    <option value="sin">Sinusoidal</option>
-                    <option value="noise">Noise</option>
-                </select></label>
-                <label>Effect Order: <select class="effectOrder" data-prop="rotate">
-                    <option value="equal">Equal</option>
-                    <option value="forward">Forward</option>
-                    <option value="backward">Backward</option>
-                </select></label>
-                <label>Amplitude: <input type="range" class="amplitude" data-prop="rotate" min="0" max="90" step="1" value="30"></label>
-                <label>Frequency: <input type="range" class="frequency" data-prop="rotate" min="0.01" max="2" step="0.01" value="1"></label>
-                <label>Speed: <input type="range" class="speed" data-prop="rotate" min="0.01" max="2" step="0.01" value="1"></label>
-                <label>Noise Seed: <input type="number" class="noiseSeed" data-prop="rotate" value="4"></label>
-                <button class="randomAnim" data-prop="rotate">Get Random Values</button>
-            </div>
+                    <div class="tab-content" id="rotate-tab">
+                        <h3>ROTATE ANIMATION</h3>
+                        <label>Motion: <select class="motionType" data-prop="rotate">
+                            <option value="off">Off</option>
+                            <option value="sin">Sinusoidal</option>
+                            <option value="noise">Noise</option>
+                        </select></label>
+                        <label>Effect Order: <select class="effectOrder" data-prop="rotate">
+                            <option value="equal">Equal</option>
+                            <option value="forward">Forward</option>
+                            <option value="backward">Backward</option>
+                        </select></label>
+                        <label>Amplitude: <input type="range" class="amplitude" data-prop="rotate" value="30"></label>
+                        <label>Frequency: <input type="range" class="frequency" data-prop="rotate" value="1"></label>
+                        <label>Speed: <input type="range" class="speed" data-prop="rotate" value="1"></label>
+                        <label>Noise Seed: <input type="number" class="noiseSeed" data-prop="rotate" value="4"></label>
+                        <button class="randomAnim" data-prop="rotate">Get Random Values</button>
+                    </div>
+                </div>
+            </details>
         </div>
 
         <div class="canvas-container">
@@ -221,7 +294,7 @@
         </div>
     </div>
 
-    <script src="noise.js?v=2.0"></script>
-    <script type="module" src="src/main.js?v=2.0"></script>
+    <script src="noise.js?v=2.2"></script>
+    <script type="module" src="src/main.js?v=2.2"></script>
 </body>
 </html>

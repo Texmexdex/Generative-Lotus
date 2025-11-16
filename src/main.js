@@ -23,6 +23,12 @@ import { KeyboardShortcuts } from './ui/KeyboardShortcuts.js';
 import { PresetManager } from './presets/PresetManager.js';
 import { PresetLibrary } from './presets/PresetLibrary.js';
 import { ImportExport } from './presets/ImportExport.js';
+import { AudioAnalyzer } from './audio/AudioAnalyzer.js';
+import { AudioReactiveController } from './audio/AudioReactiveController.js';
+import { AudioControlPanel } from './ui/AudioControlPanel.js';
+import { AudioTriggerSystem } from './audio/AudioTriggerSystem.js';
+import { AudioTriggerUI } from './ui/AudioTriggerUI.js';
+import { RangeInputEnhancer } from './ui/RangeInputEnhancer.js';
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
@@ -78,6 +84,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const performanceMonitor = new PerformanceMonitor(renderEngine, stateManager);
     const keyboardShortcuts = new KeyboardShortcuts(renderEngine, presetManager, importExport);
     
+    // Enhance range inputs with custom range controls (must be before audio system)
+    const rangeInputEnhancer = new RangeInputEnhancer(stateManager);
+    
+    // Initialize audio system
+    const audioAnalyzer = new AudioAnalyzer();
+    const audioReactiveController = new AudioReactiveController(stateManager, audioAnalyzer, rangeInputEnhancer);
+    const audioTriggerSystem = new AudioTriggerSystem(stateManager, audioAnalyzer);
+    const audioControlPanel = new AudioControlPanel(audioAnalyzer, audioReactiveController);
+    const audioTriggerUI = new AudioTriggerUI(audioTriggerSystem);
+    
+    // Reset beat count button
+    const resetBeatCountBtn = document.getElementById('resetBeatCount');
+    if (resetBeatCountBtn) {
+        resetBeatCountBtn.addEventListener('click', () => {
+            audioTriggerSystem.resetBeatCount();
+            console.log('Beat count reset');
+        });
+    }
+    
     // Force UI update to reflect initial state
     console.log('Forcing UI update with initial state');
     stateManager.notifySubscribers();
@@ -91,8 +116,19 @@ document.addEventListener('DOMContentLoaded', () => {
     renderEngine.sequenceGenerator = sequenceGenerator;
     renderEngine.splitMaskProcessor = splitMaskProcessor;
     
-    // Start the render loop
+    // Start the render loop with audio reactive updates
     renderEngine.start();
+    
+    // Audio reactive update loop
+    function audioReactiveLoop() {
+        if (audioAnalyzer.isAnalyzing()) {
+            audioReactiveController.update();
+            audioTriggerSystem.update();
+            audioControlPanel.updateVisualizer();
+        }
+        requestAnimationFrame(audioReactiveLoop);
+    }
+    audioReactiveLoop();
     
     // Note: Default state (Lotus) is already loaded from StateManager
     console.log('Application initialized successfully with Lotus preset');
